@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xianglei.crm.mapper.CustomerMapper">
+<select id="getCustomerByQueryVo" parameterType="QueryVo" resultType="customer">
+			SELECT 
+			  c.`cust_id`,
+			  c.`cust_name` ,
+			  c.`cust_user_id`,
+			  c.`cust_create_id`,
+			  s.`dict_item_name` `cust_source`,
+			  i.`dict_item_name` `cust_industry`,
+			  l.`dict_item_name` `cust_level`,
+			  c.`cust_linkman`,
+			  c.`cust_phone`,
+			  c.`cust_mobile`,
+			  c.`cust_zipcode`,
+			  c.`cust_address`,
+			  c.`cust_createtime` 
+			FROM
+			`customer`  c
+			LEFT JOIN base_dict s ON c.`cust_source`= s.`dict_id`
+			LEFT JOIN base_dict i ON c.`cust_industry`=i.`dict_id`
+			LEFT JOIN base_dict l ON c.`cust_level`=l.`dict_id`
+			<where>
+			<if test="cust_name!=null and cust_name!=''">
+			and c.`cust_name` LIKE '%${cust_name}%'
+			</if>
+			<if test="cust_source!=null and cust_source!=''">
+			and c.`cust_source` = #{cust_source}
+			</if>
+			<if test="cust_industry!=null and cust_industry!=''">
+			and c.`cust_industry` = #{cust_industry}
+			</if>
+			<if test="cust_level!=null and cust_level!=''">
+			and c.`cust_level` = #{cust_level}
+			</if>
+			</where>	
+			
+				LIMIT #{start}, #{rows} ;
+			
+		
+</select>
+
+<select id="getCountByQueryVo" parameterType="int" resultType="QueryVo">
+              SELECT  count(1)
+			  c.`cust_id`,
+			  c.`cust_name`,
+			  c.`cust_user_id`,
+			  c.`cust_create_id`,
+			  s.`dict_item_name` `cust_source`,
+			  i.`dict_item_name` `cust_industry`,
+			  l.`dict_item_name` `cust_level`,
+			  c.`cust_linkman`,
+			  c.`cust_phone`,
+			  c.`cust_mobile`,
+			  c.`cust_zipcode`,
+			  c.`cust_address`,
+			  c.`cust_createtime` 
+			FROM
+			`customer`  c
+			LEFT JOIN base_dict s ON c.`cust_source`= s.`dict_id`
+			LEFT JOIN base_dict i ON c.`cust_industry`=i.`dict_id`
+			LEFT JOIN base_dict l ON c.`cust_level`=l.`dict_id`
+			<where>
+			<if test="cust_name!=null and cust_name!=''">
+			and c.`cust_name` LIKE '%${}%'
+			</if>
+			<if test="cust_name!=null and cust_name!=''">
+			and c.`cust_source` = #{cust_source}
+			</if>
+			<if test="cust_name!=null and cust_name!=''">
+			and c.`cust_industry` = #{cust_industry}
+			</if>
+			<if test="cust_name!=null and cust_name!=''">
+			and c.`cust_level` = #{cust_level}
+			</if>
+			</where>	
+</select>
+
+</mapper>
